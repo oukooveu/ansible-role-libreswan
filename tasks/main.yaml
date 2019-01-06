@@ -1,0 +1,38 @@
+---
+- name: install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - libreswan
+    - tcpdump
+    - bind-utils
+    - nmap-ncat
+
+- name: enable forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
+
+- name: "create ipsec conf files"
+  template:
+    src: connection.conf
+    dest: "/etc/ipsec.d/{{ item.key }}.conf"
+    mode: '0644'
+  loop: "{{ ipsec_connections | dict2items }}"
+  notify: restart ipsec service
+
+- name: "create ipsec secrets files"
+  template:
+    src: connection.secrets
+    dest: "/etc/ipsec.d/{{ item.key }}.secrets"
+    mode: '0600'
+  loop: "{{ ipsec_connections | dict2items }}"
+  notify: restart ipsec service
+
+- name: enable and start ipsec service
+  service:
+    name: ipsec
+    state: started
+    enabled: yes

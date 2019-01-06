@@ -1,0 +1,7 @@
+---
+ipsec_connections:
+  connection:
+    local_gateway_ip: ''
+    remote_gateway_ip: ''
+    psk: ''
+    options: {}
