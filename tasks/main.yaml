@@ -15,6 +15,32 @@
     value: 1
     state: present
 
+- name: disable default reverse path filter
+  sysctl:
+    name: net.ipv4.conf.default.rp_filter
+    value: 0
+    state: present
+
+- name: disable current reverse path filter
+  shell: |
+    for i in /proc/sys/net/ipv4/conf/*/rp_filter
+    do
+      echo 0 > $i
+    done
+  changed_when: false
+
+- name: disable accept redirects
+  sysctl:
+    name: net.ipv4.conf.default.accept_redirects
+    value: 0
+    state: present
+
+- name: disable send redirects
+  sysctl:
+    name: net.ipv4.conf.default.send_redirects
+    value: 0
+    state: present
+
 - name: "create ipsec conf files"
   template:
     src: connection.conf
