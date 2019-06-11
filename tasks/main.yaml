@@ -1,13 +1,17 @@
 ---
+- name: include variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version | int }}.yaml"
+    - "{{ ansible_distribution }}.yaml"
+    - "{{ ansible_os_family | lower }}.yaml"
+    - "default.yaml"
+
 - name: install packages
   package:
     name: "{{ item }}"
     state: present
-  loop:
-    - libreswan
-    - tcpdump
-    - bind-utils
-    - nmap-ncat
+  loop: "{{ required_packages }}"
 
 - name: enable forwarding
   sysctl:
