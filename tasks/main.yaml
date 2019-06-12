@@ -1,24 +1,28 @@
 ---
+- name: include variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version | int }}.yaml"
+    - "{{ ansible_distribution }}.yaml"
+    - "{{ ansible_os_family | lower }}.yaml"
+    - "default.yaml"
+
 - name: install packages
   package:
     name: "{{ item }}"
     state: present
-  loop:
-    - libreswan
-    - tcpdump
-    - bind-utils
-    - nmap-ncat
+  loop: "{{ required_packages }}"
 
 - name: enable forwarding
   sysctl:
     name: net.ipv4.ip_forward
-    value: 1
+    value: '1'
     state: present
 
 - name: disable default reverse path filter
   sysctl:
     name: net.ipv4.conf.default.rp_filter
-    value: 0
+    value: '0'
     state: present
 
 - name: disable current reverse path filter
@@ -32,13 +36,13 @@
 - name: disable accept redirects
   sysctl:
     name: net.ipv4.conf.default.accept_redirects
-    value: 0
+    value: '0'
     state: present
 
 - name: disable send redirects
   sysctl:
     name: net.ipv4.conf.default.send_redirects
-    value: 0
+    value: '0'
     state: present
 
 - name: "create ipsec conf files"

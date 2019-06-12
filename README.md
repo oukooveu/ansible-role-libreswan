@@ -48,6 +48,17 @@ Example Playbook
          - libreswan
 ```
 
+How to test
+-----------
+1. Install [Vagrant](https://www.vagrantup.com), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), pip and virtualenv (recommended);
+2. Run tests:
+```
+virtualenv .virtualenv/molecule
+. .virtualenv/molecule/bin/activate
+pip install -r requirements.txt
+molecule test
+```
+
 License
 -------
 
