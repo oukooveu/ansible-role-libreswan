@@ -48,12 +48,14 @@ Example Playbook
          - libreswan
 ```
 
+Additionally you can find how to use this role [here](https://github.com/oukooveu/cloud-gateway/blob/master/tests/playbook.yaml).
+
 How to test
 -----------
 1. Install [Vagrant](https://www.vagrantup.com), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), pip and virtualenv (recommended);
 2. Run tests:
 ```
-virtualenv .virtualenv/molecule
+python -m venv .virtualenv/molecule
 . .virtualenv/molecule/bin/activate
 pip install -r requirements.txt
 molecule test
