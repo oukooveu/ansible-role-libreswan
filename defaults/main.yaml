@@ -6,4 +6,5 @@ ipsec_connections:
     psk: ''
     options: {}
 
+# Custom Libreswan deb package URL to download and install
 libreswan_s3_url: "https://pawapay-packages.s3.eu-central-1.amazonaws.com/libreswan_4.6-1_amd64.deb"
