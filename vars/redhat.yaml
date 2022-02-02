@@ -1,6 +1,5 @@
 ---
 required_packages:
-  - libreswan
   - tcpdump
   - bind-utils
   - nmap-ncat

@@ -19,6 +19,10 @@
     state: present
   loop: "{{ required_packages }}"
 
+- name: Install a Libreswan .deb package from S3
+  apt:
+    deb: https://pawapay-packages.s3.eu-central-1.amazonaws.com/libreswan_4.6-1_amd64.deb
+
 - name: enable forwarding
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
