@@ -45,21 +45,8 @@
     value: '0'
     state: present
 
-- name: "create ipsec conf files"
-  template:
-    src: connection.conf
-    dest: "/etc/ipsec.d/{{ item.key }}.conf"
-    mode: '0644'
-  loop: "{{ ipsec_connections | dict2items }}"
-  notify: restart ipsec service
-
-- name: "create ipsec secrets files"
-  template:
-    src: connection.secrets
-    dest: "/etc/ipsec.d/{{ item.key }}.secrets"
-    mode: '0600'
-  loop: "{{ ipsec_connections | dict2items }}"
-  notify: restart ipsec service
+- name: configure ipsec connections
+  import_tasks: configure_connections.yaml
 
 - name: enable and start ipsec service
   service:

@@ -1,0 +1,16 @@
+---
+- name: "create ipsec conf files"
+  template:
+    src: connection.conf
+    dest: "/etc/ipsec.d/{{ item.key }}.conf"
+    mode: '0644'
+  loop: "{{ ipsec_connections | dict2items }}"
+  notify: restart ipsec service
+
+- name: "create ipsec secrets files"
+  template:
+    src: connection.secrets
+    dest: "/etc/ipsec.d/{{ item.key }}.secrets"
+    mode: '0600'
+  loop: "{{ ipsec_connections | dict2items }}"
+  notify: restart ipsec service
