@@ -1,32 +1,38 @@
 ---
 - name: include variables
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version | int }}.yaml"
     - "{{ ansible_distribution }}.yaml"
     - "{{ ansible_os_family | lower }}.yaml"
     - "default.yaml"
 
+- name: update package list (debian)
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+
 - name: install packages
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop: "{{ required_packages }}"
 
 - name: enable forwarding
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: '1'
     state: present
 
 - name: disable default reverse path filter
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.default.rp_filter
     value: '0'
     state: present
 
 - name: disable current reverse path filter
-  shell: |
+  ansible.builtin.shell: |
     for i in /proc/sys/net/ipv4/conf/*/rp_filter
     do
       echo 0 > $i
@@ -34,22 +40,22 @@
   changed_when: false
 
 - name: disable accept redirects
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.default.accept_redirects
     value: '0'
     state: present
 
 - name: disable send redirects
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.conf.default.send_redirects
     value: '0'
     state: present
 
 - name: configure ipsec connections
-  import_tasks: configure_connections.yaml
+  ansible.builtin.import_tasks: configure_connections.yaml
 
 - name: enable and start ipsec service
-  service:
+  ansible.builtin.service:
     name: ipsec
     state: started
     enabled: yes

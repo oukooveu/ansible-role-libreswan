@@ -1,15 +1,17 @@
 ---
 dependency:
   name: galaxy
+  enabled: false
+  options:
+    role-file: requirements.yml
 driver:
   name: vagrant
   provider:
     name: virtualbox
-lint:
-  name: yamllint
-  options:
-    config-data:
-      ignore: .virtualenv
+lint: |
+  yamllint .
+  ansible-lint .
+  flake8
 platforms:
   - name: test-gw-1
     box: centos/7
@@ -23,7 +25,7 @@ platforms:
     instance_raw_config_args:
       - "vm.network 'private_network', ip: '192.168.1.1', virtualbox__intnet: true"
   - name: test-gw-2
-    box: ubuntu/bionic64
+    box: debian/buster64
     memory: 512
     cpus: 1
     interfaces:
@@ -36,23 +38,11 @@ platforms:
 provisioner:
   name: ansible
   log: True
-  lint:
-    name: ansible-lint
+  config_options:
+    defaults:
+      callbacks_enabled: ansible.posix.profile_tasks
 verifier:
   name: testinfra
   options:
     verbose: true
-  lint:
-    name: flake8
-scenario:
-  name: default
-  test_sequence:
-    - lint
-    - destroy
-    - syntax
-    - create
-    - prepare
-    - converge
-    - idempotence
-    - verify
-    - destroy
+    p: 'no:pytest-ansible'

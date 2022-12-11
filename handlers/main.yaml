@@ -1,5 +1,5 @@
 ---
 - name: restart ipsec service
-  service:
+  ansible.builtin.service:
     name: ipsec
     state: restarted

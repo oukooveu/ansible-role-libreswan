@@ -53,10 +53,11 @@ Additionally you can find how to use this role [here](https://github.com/oukoove
 How to test
 -----------
 1. Install [Vagrant](https://www.vagrantup.com), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), pip and virtualenv (recommended);
-2. Run tests:
+1. `172.16.100.0/24` network should be added into `/etc/vbox/networks.conf`;
+1. Run tests:
 ```
-python -m venv .virtualenv/molecule
-. .virtualenv/molecule/bin/activate
+python -m venv .venv
+. .venv/bin/activate
 pip install -r requirements.txt
 molecule test
 ```

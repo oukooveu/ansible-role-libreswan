@@ -1,2 +1,3 @@
 *.retry
-.virtualenv
+.venv
+.vagrant

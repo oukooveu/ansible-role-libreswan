@@ -1,6 +1,6 @@
 ---
 - name: "create ipsec conf files"
-  template:
+  ansible.builtin.template:
     src: connection.conf
     dest: "/etc/ipsec.d/{{ item.key }}.conf"
     mode: '0644'
@@ -8,7 +8,7 @@
   notify: restart ipsec service
 
 - name: "create ipsec secrets files"
-  template:
+  ansible.builtin.template:
     src: connection.secrets
     dest: "/etc/ipsec.d/{{ item.key }}.secrets"
     mode: '0600'
