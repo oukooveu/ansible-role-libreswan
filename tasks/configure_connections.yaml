@@ -5,7 +5,8 @@
     dest: "/etc/ipsec.d/{{ item.key }}.conf"
     mode: '0644'
   loop: "{{ ipsec_connections | dict2items }}"
-  notify: restart ipsec service
+  register: ipsec_connections_creation
+  notify: "{{ ipsec_handler }}"
 
 - name: "create ipsec secrets files"
   ansible.builtin.template:
@@ -13,4 +14,5 @@
     dest: "/etc/ipsec.d/{{ item.key }}.secrets"
     mode: '0600'
   loop: "{{ ipsec_connections | dict2items }}"
-  notify: restart ipsec service
+  register: ipsec_secrets_creation
+  notify: "{{ ipsec_handler }}"

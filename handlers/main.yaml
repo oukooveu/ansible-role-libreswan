@@ -3,3 +3,62 @@
   ansible.builtin.service:
     name: ipsec
     state: restarted
+
+- name: register ipsec connections statuses
+  ansible.builtin.set_fact:
+    updated_ipsec_connections: "{{ ipsec_connections_creation.results
+                                    | selectattr('changed')
+                                    | map(attribute='item.key') }}"
+    updated_ipsec_secrets: "{{ ipsec_secrets_creation.results
+                                | selectattr('changed')
+                                | map(attribute='item.key') }}"
+  listen: "reload ipsec connections"
+
+- name: compute changed ipsec connections
+  ansible.builtin.set_fact:
+    changed_ipsec_connections: "{{ updated_ipsec_connections
+                                    | union(updated_ipsec_secrets) }}"
+  listen: "reload ipsec connections"
+
+- name: reread ipsec secret
+  ansible.builtin.command: ipsec auto --rereadsecrets
+  changed_when: true
+  listen: "reload ipsec connections"
+  when: not ansible_check_mode
+
+- name: reread ipsec secret (check_mode)
+  ansible.builtin.debug:
+    msg: "Without check_mode `ipsec auto --rereadsecrets` would have been triggered."
+  changed_when: true
+  listen: "reload ipsec connections"
+  when: ansible_check_mode
+
+- name: replace or create updated ipsec connection
+  ansible.builtin.command: ipsec auto --replace {{ item }}
+  changed_when: true
+  loop: "{{ changed_ipsec_connections }}"
+  listen: "reload ipsec connections"
+  when: not ansible_check_mode
+
+- name: replace or create updated ipsec connection (check_mode)
+  ansible.builtin.debug:
+    msg: "Without check_mode `ipsec auto --replace {{ item }}` would have been triggered."
+  changed_when: true
+  loop: "{{ changed_ipsec_connections }}"
+  listen: "reload ipsec connections"
+  when: ansible_check_mode
+
+- name: set ipsec connection up
+  ansible.builtin.command: ipsec auto --up {{ item }}
+  changed_when: true
+  loop: "{{ changed_ipsec_connections }}"
+  listen: "reload ipsec connections"
+  when: not ansible_check_mode
+
+- name: set ipsec connection up (check_mode)
+  ansible.builtin.debug:
+    msg: "Without check_mode `ipsec auto --up {{ item }}` would have been triggered."
+  changed_when: true
+  loop: "{{ changed_ipsec_connections }}"
+  listen: "reload ipsec connections"
+  when: ansible_check_mode
