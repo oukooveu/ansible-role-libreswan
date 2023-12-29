@@ -1,4 +1,4 @@
-ansible==7.1.0
+ansible==8.5.0
 ansible-lint==6.9.1
 flake8==6.0.0
 molecule==4.0.4
