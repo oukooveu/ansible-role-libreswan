@@ -8,10 +8,6 @@ driver:
   name: vagrant
   provider:
     name: virtualbox
-lint: |
-  yamllint .
-  ansible-lint .
-  flake8
 platforms:
   - name: test-gw-1
     box: centos/7

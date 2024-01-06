@@ -20,4 +20,4 @@
           ike: 'aes128-sha1;modp1024'
           phase2alg: 'aes128-sha1;modp1024'
   roles:
-    - role: ansible-role-libreswan
+    - role: oukooveu.libreswan
