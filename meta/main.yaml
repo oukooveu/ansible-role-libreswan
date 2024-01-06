@@ -13,7 +13,7 @@ galaxy_info:
         - '9'
     - name: Debian
       versions:
-        - bookworm # 12
+        - bookworm  # 12
   galaxy_tags:
     - networking
     - vpn
