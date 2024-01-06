@@ -17,7 +17,7 @@
           authby: 'secret'
           type: 'tunnel'
           ikelifetime: '8h'
-          ike: 'aes128-sha1;modp1024'
-          phase2alg: 'aes128-sha1;modp1024'
+          ike: 'aes128-sha1;modp2048'
+          phase2alg: 'aes128-sha1;modp2048'
   roles:
     - role: oukooveu.libreswan

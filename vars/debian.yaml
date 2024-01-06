@@ -3,4 +3,4 @@ required_packages:
   - libreswan
   - tcpdump
   - dnsutils
-  - netcat
+  - netcat-openbsd

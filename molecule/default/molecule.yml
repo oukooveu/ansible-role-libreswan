@@ -10,7 +10,7 @@ driver:
     name: virtualbox
 platforms:
   - name: test-gw-1
-    box: centos/7
+    box: rockylinux/9
     memory: 512
     cpus: 1
     interfaces:
@@ -21,7 +21,7 @@ platforms:
     instance_raw_config_args:
       - "vm.network 'private_network', ip: '192.168.1.1', virtualbox__intnet: true"
   - name: test-gw-2
-    box: debian/buster64
+    box: debian/bookworm64
     memory: 512
     cpus: 1
     interfaces:

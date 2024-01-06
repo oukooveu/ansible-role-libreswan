@@ -10,10 +10,10 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - '7'
+        - '9'
     - name: Debian
       versions:
-        - buster
+        - bookworm # 12
   galaxy_tags:
     - networking
     - vpn
