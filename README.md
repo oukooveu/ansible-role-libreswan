@@ -32,7 +32,12 @@ ipsec_connections:
       dpddelay: '10'
       dpdtimeout: '30'
       dpdaction: 'restart_by_peer'
+ipsec_handler: "restart ipsec service"
 ```
+
+`ipsec_handler` can be set to either `restart ipsec service` or `reload ipsec connections`:
+  * `restart ipsec service`(default): restarts the whole ipsec service
+  * `reload ipsec connections`: create or update indivual ipsec connections
 
 Dependencies
 ------------
