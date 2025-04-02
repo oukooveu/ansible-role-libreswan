@@ -1,6 +1,8 @@
 ---
-required_packages:
+_required_packages:
   - libreswan
   - tcpdump
   - bind-utils
   - nmap-ncat
+
+required_packages: "{{ ipsec_required_packages | default(_required_packages) }}"

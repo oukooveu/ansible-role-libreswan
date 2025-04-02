@@ -34,6 +34,13 @@ ipsec_connections:
       dpdaction: 'restart_by_peer'
 ```
 
+Default installed packages can be overriden with `ipsec_required_packages`.
+
+```yaml
+ipsec_required_packages:
+  - libreswan
+```
+
 Dependencies
 ------------
 
