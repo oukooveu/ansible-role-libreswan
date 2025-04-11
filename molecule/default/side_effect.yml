@@ -1,0 +1,24 @@
+---
+- name: Side effect
+  hosts: all
+  become: true
+  vars:
+    ipsec_connections:
+      test-conn:
+        local_gateway_ip: '172.16.100.17'
+        remote_gateway_ip: '172.16.100.33'
+        psk: 'testpskstring'
+        options:
+          leftsubnet: '192.168.1.0/24'
+          leftsourceip: '192.168.1.1'
+          rightsubnet: '192.168.2.0/24'
+          rightsourceip: '192.168.2.1'
+          auto: 'start'
+          authby: 'secret'
+          type: 'tunnel'
+          ikelifetime: '10h'
+          ike: 'aes128-sha1;modp2048'
+          phase2alg: 'aes128-sha1;modp2048'
+    ipsec_handler: reload ipsec connections
+  roles:
+    - role: oukooveu.libreswan

@@ -5,3 +5,5 @@ ipsec_connections:
     remote_gateway_ip: ''
     psk: ''
     options: {}
+
+ipsec_handler: "restart ipsec service"
